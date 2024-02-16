@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./resources/css/style.min.css" />
+    <title>Document</title>
+  </head>
+
+  <style>
+    section {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+    }
+
+    li {
+      width: 100%;
+      aspect-ratio: 1/1;
+      cursor: pointer;
+    }
+
+    li img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .original {
+      position: fixed;
+      z-index: 5;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(244, 241, 234, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+      flex-direction: column;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    .original.show {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .original figure {
+      max-width: 80%;
+      margin: 0 auto;
+      border: 3px solid transparent;
+      border-image: linear-gradient(
+        157deg,
+        rgba(214, 198, 154, 1) 21%,
+        rgba(157, 125, 74, 1) 53%,
+        rgba(214, 198, 154, 1) 88%
+      );
+      border-image-slice: 1;
+    }
+
+    .original figure img {
+      margin: 0 auto;
+      max-height: 110vh;
+    }
+
+    .original-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #close {
+      display: inline-block;
+      margin-left: auto;
+    }
+
+    #close:hover {
+      opacity: 0.5;
+    }
+  </style>
+
+  <body>
+    <section>
+      <ul>
+        <li class="thum" data-value="noum1">
+          <img src="/resources/img/noum1.jpg" alt="" />
+        </li>
+        <li class="thum" data-value="noum2">
+          <img src="/resources/img/noum2.jpg" alt="" />
+        </li>
+        <li class="thum" data-value="noum3">
+          <img src="/resources/img/noum3.jpg" alt="" />
+        </li>
+      </ul>
+    </section>
+
+    <!-- 이미지 원본 -->
+    <div class="original">
+      <div class="original-wrap">
+        <a href="#!" style="font-size: 18px; padding: 10px" id="close">
+          닫기
+        </a>
+        <div class="original-img"></div>
+      </div>
+    </div>
+
+    <script src="/resources/js/jquery.min.js"></script>
+    <script>
+      // 외부영역 클릭 시 팝업 닫기
+      $('.original').click(function (e) {
+        if ($(e.target).parents('.original-img').length < 1) {
+          //실행 이벤트 부분
+          $('.original').stop().removeClass('show');
+        }
+      });
+
+      /* 섬네일 클릭 시 이미지 보기 */
+      $('.thum').click(function () {
+        var value = $(this).data('value');
+
+        // 모든 .original 안의 figure 태그를 숨김 처리
+        $('.original-img figure').hide();
+
+        // 이미지가 이미 추가되어 있는지 확인
+        if (
+          $(`.original-img img[src="/resources/img/${value}.webp"]`).length > 0
+        ) {
+          // 이미지가 이미 추가되어 있으면 해당 이미지만 보이도록 처리
+          $(`.original-img figure.${value}`).fadeIn();
+          $('.original').addClass('show');
+        } else {
+          // 이미지가 추가되어 있지 않으면 새로운 이미지 엘리먼트 생성
+          var newImage = $(`<figure class="${value}">`).append(
+            $('<img>', {
+              src: `/resources/img/${value}.webp`,
+              alt: '',
+            })
+          );
+
+          // $('.original')에 새로운 이미지 추가
+          $('.original-img').append(newImage);
+          $('.original').addClass('show');
+        }
+      });
+    </script>
+  </body>
+</html>
