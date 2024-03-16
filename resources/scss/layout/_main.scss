@@ -1,5 +1,9 @@
 @use '../helpers/' as *;
 
+.-nonescroll{
+  height: 100vh;
+  overflow: hidden;
+}
 .intro {
   width: 100%;
   height: 100%;
@@ -20,14 +24,6 @@
       height: 16vw;
       justify-content: center;
 
-      &:hover {
-        li {
-          span {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-          }
-        }
-      }
-
       li {
         width: 1.6vw;
         height: 100%;
@@ -45,28 +41,20 @@
 
         span {
           width: 100%;
-          background: #fff;
+          background: transparent;
           flex-grow: 1;
           display: block;
           position: relative;
-          clip-path: polygon(0 0, 100% 0, 100% 1%, 0 1%);
           transition: all 0.3s;
-
-          &::before {
-            content: '';
-            width: 100%;
-            height: 100%;
-            background: #f00;
-            position: absolute;
-            left: 0;
-            top: 0;
-          }
+          overflow: hidden;
 
           i {
             width: 100%;
             height: 100%;
-            display: block;
             background: #fff;
+            position: absolute;
+            left: 0;
+            top: -100%;
           }
         }
 
@@ -138,3 +126,10 @@
     }
   }
 }
+
+.member{
+  width: 100%;
+  height: 100vh;
+  background: gray;
+}
+
